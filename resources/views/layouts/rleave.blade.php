@@ -9,18 +9,14 @@
             <div class="card overflow-hidden account-card mx-3">
                 
                 <div class="account-card-content">
-                    <form class="form-horizontal m-t-30" method="POST" action="Leave">
+                    <form class="form-horizontal m-t-30" method="POST" action="frLeave">
                         @csrf              
-                        
-                        <div style = "text-align: center; margin-top: -50px;">          
-                            <img src="assets/images/IGI.jpg" width="220px" height="150px" alt="">
-                        </div>
 
                         <div class="form-group">
                             <label for="Name" class="col-form-label ">{{ __('Employee') }}</label>
 
                             <input id="firstname" type="text" style = "width: 47%;" class="form-control @error('email') is-invalid @enderror"
-                                name="employee" value="" required autocomplete="firstname" autofocus readonly>
+                                name="employee" value="{{$to}}" required autocomplete="firstname" autofocus readonly>
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -33,7 +29,7 @@
                             <label for="Lastname" class="col-form-label ">{{ __('Leave Id') }}</label>
 
                             <input id="lastname" type="text" style = "width: 100%;" class="form-control @error('email') is-invalid @enderror"
-                                name="lid" value="" required autocomplete="lastname" autofocus readonly>
+                                name="lid" value="{{$lid}}" required autocomplete="lastname" autofocus readonly>
 
                             @error('lastname')
                                 <span class="invalid-feedback" role="alert">
@@ -46,7 +42,7 @@
                             <label for="Alternate Email" class="col-form-label ">{{ __('Username') }}</label>
 
                             <input id="Staff_number" type="text" style = "width: 47%;" class="form-control @error('email') is-invalid @enderror"
-                                name="username" value="" required autocomplete="email" autofocus readonly>
+                                name="username" value="{{$username}}" required autocomplete="email" autofocus readonly>
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">

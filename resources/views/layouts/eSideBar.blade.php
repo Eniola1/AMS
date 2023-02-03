@@ -56,6 +56,13 @@
                                     <i class="dripicons-backspace"></i> <span> Leave </span>
                                 </a>
                             </li>
+
+                            <li class="">
+                                <a href="/EleaveR" class="waves-effect {{ request()->is("leave") || request()->is("leave/*") ? "mm active" : "" }}">
+                                    <i class="dripicons-backspace"></i> <span> Leave Records </span>
+                                </a>
+                            </li>
+
                             <li class="">
                                 <a href="/Eovertime" class="waves-effect {{ request()->is("overtime") || request()->is("overtime/*") ? "mm active" : "" }}">
                                     <i class="dripicons-alarm"></i> <span> Over Time </span>

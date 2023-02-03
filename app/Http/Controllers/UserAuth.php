@@ -507,7 +507,7 @@ class UserAuth extends Controller
 
         else
         {
-            dd("You have processed this leave request");
+            dd("This leave request has been processed");
         }
     }
 
@@ -518,5 +518,80 @@ class UserAuth extends Controller
         $results = DB::select($sql);
 
         return view('layouts.lsleave')->with(['results' => $results]);
+    }
+
+    public function rLeave(Request $req, $id)
+    {
+        $username = $req->session()->get('username');
+        
+        $lid = $id;
+
+        $to = Leave::where('id', $lid)->get();
+
+        foreach($to as $to)
+        {
+            $to = $to['username'];
+        }
+
+        return view('layouts.rleave')->with(['username' => $username, 'to' => $to, 'lid' => $lid]);
+    }
+
+    public function frLeave(Request $req)
+    {
+        $lid = $req->lid;
+
+        $sql = "SELECT count(*) as count FROM leave_status WHERE leave_id = '$lid'";
+
+        $results = DB::select($sql);
+
+        foreach($results as $result)
+        {
+            $count = $result->count;
+        }
+
+        if($count == 0)
+        {
+            $user = new leaveStatus;
+    
+            $user->from = $req->username;
+            $user->to = $req->employee;
+            $user->subject = "Leave Rejection";
+            $user->leave_id = $req->lid;
+            $user->response = $req->reason;
+            $user->status = "Rejected";
+
+            $user->save();
+
+            $user = new notification;
+            
+            $user->username = $req->username;
+            $user->receiver = $req->employee;
+            $user->type = 'Leave Rejection';
+            $user->leave_id = $req->lid;
+
+            $user->save();
+
+
+            $totalEmp =  count(Employee::all());
+            $AllAttendance = count(Attendance::whereAttendance_date(date("Y-m-d"))->get());
+            $ontimeEmp = count(Attendance::whereAttendance_date(date("Y-m-d"))->whereStatus('1')->get());
+            $latetimeEmp = count(Attendance::whereAttendance_date(date("Y-m-d"))->whereStatus('0')->get());
+
+            if($AllAttendance > 0){
+                $percentageOntime = str_split(($ontimeEmp/ $AllAttendance)*100, 4)[0];
+            }
+            else {
+                $percentageOntime = 0;
+            }
+            
+            $data = [$totalEmp, $ontimeEmp, $latetimeEmp, $percentageOntime];
+
+            return view('layouts.index')->with(['data' => $data]);
+        }
+
+        else
+        {
+            dd("This leave request has been processed");
+        }
     }
 }

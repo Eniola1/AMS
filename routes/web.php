@@ -26,7 +26,7 @@ Route::get('/account', function () {
     return view('admin.account');
 });
 
-Route::get('/Aleave', function (Request $req) {
+Route::get('/rleave/{id}', function (Request $req) {
     return view('layouts.rleave')->with(['username' => $req->session()->get('username')]);
 });
 
@@ -51,7 +51,7 @@ Route::group(['middleware'=> ['protectedPage']],function(){
     
     Route::get('/employee', function (Request $req) {
 
-        $notify = notification::where('receiver', $req->session()->get('username'))->orderBy('id', 'DESC')->take(10)->get();
+        $notify = notification::where('receiver', $req->session()->get('username'))->orderBy('id', 'DESC')->take(20)->get();
         $count = count($notify);
         
         return view('layouts.clockIn')->with(['notify' => $notify, 'count'=> $count]);
@@ -59,7 +59,7 @@ Route::group(['middleware'=> ['protectedPage']],function(){
 
     Route::get('/clockIn', function (Request $req) {
 
-        $notify = notification::where('receiver', $req->session()->get('username'))->orderBy('id', 'DESC')->take(10)->get();
+        $notify = notification::where('receiver', $req->session()->get('username'))->orderBy('id', 'DESC')->take(20)->get();
         $count = count($notify);
 
         return view('layouts.clockIn')->with(['notify' => $notify, 'count'=> $count]);
@@ -82,14 +82,28 @@ Route::group(['middleware'=> ['protectedPage']],function(){
     });
 
     Route::get('/Eleave', function (Request $req) {
-
         $dept = "";
         return view('layouts.eLeave')->with(['username' => $req->session()->get('username')]);
+    });
+
+    Route::get('/EleaveR', function (Request $req) {
+
+        $username = $req->session()->get('username');
+        
+        $sql = "SELECT * FROM leave_status WHERE `from` = '$username'";
+
+        $results = DB::select($sql);
+
+        return view('layouts.eleaveR')->with(['results' => $results]);
     });
 
     Route::get("pleave/{id}", [UserAuth::class, 'prcLv']);
 
     Route::get("lsleave/{id}", [UserAuth::class, 'lsleave']);
+
+    Route::get("rleave/{id}", [UserAuth::class, 'rleave']);
+    
+    Route::post("/rleave/frLeave", [UserAuth::class, 'frleave']);
 
     Route::post("/pleave/prLeave", [UserAuth::class, 'pleave']);
 

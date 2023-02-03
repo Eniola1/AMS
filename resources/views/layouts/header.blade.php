@@ -66,6 +66,13 @@
                                 <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
                                 <p class="notify-details">Employee {{$notify->type}}<span class="text-muted"><strong>{{$notify->username}}<strong> has sent you a {{$notify->type}}.</span></p>
                             </a>
+
+                        @elseif($notify->type == 'Leave Rejection')
+                            <a href="{{ url('lsleave', ['id' => $notify->leave_id]) }}" class="dropdown-item notify-item active">
+                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
+                                <p class="notify-details">Employee {{$notify->type}}<span class="text-muted"><strong>{{$notify->username}}<strong> has sent you a {{$notify->type}}.</span></p>
+                            </a>
+
                         @else
                             <a href="{{ url('pleave', ['id' => $notify->leave_id]) }}" class="dropdown-item notify-item active">
                                 <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>

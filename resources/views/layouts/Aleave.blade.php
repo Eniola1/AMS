@@ -281,7 +281,7 @@
                             </div>
 
                             <div class="col-sm-6 text-right" style = "margin-left: -10px; margin-top: 45px;">
-                                <a href="{{ url('rleave', ['id' => $note->id]) }}"><button class="btn btn-primary w-md waves-effect waves-light" style = "width : 50%;">Reject</button></a> <!-- A link containing the leave id!-->
+                                <a href="{{ url('rleave', ['id' => $note->id]) }}"><input type="button" value = "Reject" class="btn btn-primary w-md waves-effect waves-light" style = "width : 50%;"></a> <!-- A link containing the leave id!-->
                             </div>
                         </div>
                     @endforeach
